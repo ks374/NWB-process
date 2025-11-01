@@ -59,3 +59,28 @@ def get_correct_trials(data, session_name='session_00'):
     # --- 6. Return the new, 0-based index ---
     # .index returns the new [0, 1, 3, ...] style index
     return correct_trials.index
+
+def get_correct_df(units,trials):
+    units_new = units.head(0)
+    trials_new = trials.head(0)
+    num_of_correct = []
+    num_of_total_trials = []
+    for i in session_name_list:
+        units_cur_session = units[units['session'] == i]
+        trials_cur_session = trials[trials['session'] == i]
+        correct_index = get_correct_trials(data = trials, session_name=i)
+        num_of_correct.append(len(correct_index))
+        num_of_total_trials.append(trials_cur_session.shape[0])
+        
+        trials_cur_session = trials_cur_session.iloc[correct_index]
+        trials_new = pd.concat([trials_new,trials_cur_session],ignore_index=True)
+
+        count = 0
+        for ind in units_cur_session.index:
+            original_matrix = units_cur_session.at[ind,'spkMtx']
+            new_filtered_matrix = original_matrix[correct_index]
+            units_cur_session.at[ind,'spkMtx'] = new_filtered_matrix
+            units_new = pd.concat([units_new,units_cur_session],ignore_index=True)
+            count += 1
+
+    return units_new,trials_new,num_of_correct,num_of_total_trials
