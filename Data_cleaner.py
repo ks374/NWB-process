@@ -61,6 +61,8 @@ def get_correct_trials(data, session_name='session_00'):
     return correct_trials.index
 
 def get_correct_df(units,trials):
+    num_sessions = 27
+    session_name_list = [f"session_{i:02d}" for i in range(num_sessions)]
     units_new = units.head(0)
     trials_new = trials.head(0)
     num_of_correct = []
