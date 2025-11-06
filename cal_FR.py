@@ -50,6 +50,7 @@ def cal_FR(data, start_time, end_time, bin_size_ms=1.0):
     
     return firing_rate_hz
 
+
 def plot_firing_rate_distribution(fr_array, title="Firing Rate Distribution"):
     """
     Plots a histogram of the firing rates from a 1D array.
